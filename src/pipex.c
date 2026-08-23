@@ -77,3 +77,25 @@ int	main(int argc, char **argv, char **envp)
 	waitpid(second, &status, 0);
 	return (get_status(status));
 }
+
+/*
+MY TESTS
+
+./pipex infile "grep a1" "wc -w" outfile
+./pipex infile "cat" "wc -l" outfile
+./pipex infile "/bin/cat" "/usr/bin/wc -w" outfile
+
+./pipex nofile "cat" "wc -l" outfile
+./pipex infile "badcmd" "wc -l" outfile
+./pipex infile "cat" "badcmd" outfile
+
+./pipex infile "false" "true" outfile
+echo $?
+
+./pipex infile "true" "false" outfile
+echo $?
+
+valgrind --leak-check=full 
+--track-fds=yes ./pipex infile "grep a1" "wc -w" 
+outfile
+*/
