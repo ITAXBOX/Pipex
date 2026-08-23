@@ -102,3 +102,49 @@ int	main(int argc, char **argv, char **envp)
 		return (code);
 	return (status);
 }
+
+/*
+========================
+BONUS 1 - MULTIPLE PIPES
+========================
+
+./pipex infile "cat" "grep a1" "wc -l" outfile
+
+./pipex infile "cat" "grep hello" "sort" "wc -l" outfile
+
+./pipex infile "/bin/cat" "/usr/bin/grep a1" "/usr/bin/wc -w" outfile
+
+./pipex infile "badcmd" "cat" "wc -l" outfile
+
+./pipex infile "cat" "badcmd" "wc -l" outfile
+
+./pipex infile "cat" "wc -l" "badcmd" outfile
+echo $?
+
+valgrind --leak-check=full --track-fds=yes
+./pipex infile "cat" "grep a1" "wc -l" outfile
+*/
+
+/*
+================
+BONUS 2 - HEREDOC
+================
+
+./pipex here_doc END "cat" "wc -l" outfile
+
+./pipex here_doc STOP "grep hello" "wc -w" outfile
+
+./pipex here_doc END "cat" "grep a1" "wc -l" outfile
+
+./pipex here_doc END "badcmd" "wc -l" outfile
+
+./pipex here_doc END "cat" "badcmd" outfile
+echo $?
+
+echo "OLD DATA" > outfile
+./pipex here_doc END "cat" "wc -l" outfile
+cat outfile
+
+valgrind --leak-check=full --track-fds=yes
+./pipex here_doc END "cat" "wc -l" outfile
+*/
